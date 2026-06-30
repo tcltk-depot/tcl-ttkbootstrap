@@ -2,8 +2,11 @@
 
 A faithful Tcl/Tk port of [israel-dryer/ttkbootstrap](https://github.com/israel-dryer/ttkbootstrap).
 
-Provides Bootstrap-inspired themes and styles for Tk/Ttk applications — no Python,
-no Pillow, no pip. Pure Tcl.
+Provides Bootstrap-inspired themes and styles for Tk/Ttk applications — no
+Python, no Pillow, no pip. Pure Tcl.
+
+Initial [port](https://wiki.tcl-lang.org/page/ttkbootstrap) was done by Jeff
+Smith using Claude AI.
 
 ---
 
