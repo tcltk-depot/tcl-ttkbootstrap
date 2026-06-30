@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ttkbootstrap-tcl(3) — Widget Library Manual</title>
+<style>
+:root {
+    --bg: #1a1a2e; --fg: #e0e0e0; --accent: #4fc3f7;
+    --code-bg: #16213e; --border: #333; --heading: #81d4fa;
+    --link: #4fc3f7; --section-bg: #0f3460;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: "IBM Plex Mono", "Fira Code", "Consolas", monospace;
+    font-size: 14px; line-height: 1.6;
+    background: var(--bg); color: var(--fg);
+    max-width: 900px; margin: 0 auto; padding: 24px;
+}
+h1 { color: var(--accent); font-size: 20px; border-bottom: 2px solid var(--accent);
+     padding-bottom: 8px; margin: 24px 0 16px; }
+h2 { color: var(--heading); font-size: 16px; margin: 20px 0 8px;
+     border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+h3 { color: var(--accent); font-size: 14px; margin: 16px 0 6px; }
+.header { text-align: center; padding: 16px 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+.header .title { font-size: 24px; color: var(--accent); font-weight: bold; }
+.header .subtitle { color: #888; font-size: 12px; margin-top: 4px; }
+.section-label { color: var(--accent); font-weight: bold; text-transform: uppercase;
+                 font-size: 11px; letter-spacing: 2px; margin: 24px 0 8px; }
+code { background: var(--code-bg); color: #a5d6a7; padding: 2px 6px;
+       border-radius: 3px; font-size: 13px; }
+pre { background: var(--code-bg); padding: 12px 16px; border-radius: 6px;
+      overflow-x: auto; margin: 8px 0 16px; border: 1px solid var(--border); }
+pre code { padding: 0; background: none; }
+.widget { margin: 12px 0; padding: 12px 16px; background: var(--section-bg);
+          border-radius: 6px; border-left: 3px solid var(--accent); }
+.widget-name { color: var(--accent); font-weight: bold; font-size: 15px; }
+.widget-desc { color: #aaa; margin: 4px 0; }
+.options { color: #ce93d8; margin-top: 6px; }
+.options span { color: #fff; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: var(--section-bg); color: var(--accent); text-align: left;
+     padding: 8px 12px; border: 1px solid var(--border); }
+td { padding: 8px 12px; border: 1px solid var(--border); }
+tr:nth-child(even) { background: rgba(255,255,255,0.03); }
+.toc { background: var(--section-bg); padding: 16px; border-radius: 6px; margin: 16px 0; }
+.toc a { color: var(--link); text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.toc li { margin: 4px 0; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 12px;
+         font-size: 11px; font-weight: bold; margin: 0 4px; }
+.badge-light { background: #4fc3f7; color: #1a1a2e; }
+.badge-dark { background: #ce93d8; color: #1a1a2e; }
+.badge-svg { background: #a5d6a7; color: #1a1a2e; }
+footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border);
+         color: #666; font-size: 12px; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="title">TTKBOOTSTRAP-TCL(3)</div>
+<div class="subtitle">Tcl/Tk Widget Library Manual — Version 1.5.0 — May 2026</div>
+</div>
+
+<h1>NAME</h1>
+<p><strong>ttkbootstrap-tcl</strong> — Modern themed widget library for Tcl/Tk 9 — 64 widgets</p>
+<p>
+<span class="badge badge-light">27 Original</span>
+<span class="badge badge-svg">37 SVG</span>
+<span class="badge badge-dark">18 Themes</span>
+</p>
+
+<h1>SYNOPSIS</h1>
+<pre><code>source ttkbootstrap.tcl
+ttkbootstrap::Window -themename litera -title "My App" -size {800 600}
+ttkbootstrap::setTheme darkly
+ttkbootstrap::getColor primary    ;# → "#375a7f"</code></pre>
+
+<h1>TABLE OF CONTENTS</h1>
+<div class="toc">
+<ul>
+<li><a href="#themes">Themes</a> — 18 built-in themes</li>
+<li><a href="#original">Original Widgets</a> — 27 widgets in widgets/*.tcl</li>
+<li><a href="#svg">SVG Widgets</a> — 37 SVG-rendered widgets</li>
+<li><a href="#scaling">DPI Scaling</a> — Auto-scaling for HiDPI</li>
+<li><a href="#colours">Colour Utilities</a> — Contrast, darken, lighten</li>
+<li><a href="#examples">Examples</a> — Complete code examples</li>
+</ul>
+</div>
+
+<h1 id="themes">THEMES</h1>
+<h2>Light Themes (13)</h2>
+<table>
+<tr><th>Theme</th><th>Primary</th><th>Style</th></tr>
+<tr><td>cerculean</td><td>Blue</td><td>Clean, professional</td></tr>
+<tr><td>cosmo</td><td>Blue</td><td>Modern, Bootstrap-like</td></tr>
+<tr><td>flatly</td><td>Dark blue</td><td>Flat design, muted</td></tr>
+<tr><td>journal</td><td>Red</td><td>Readable, serif-inspired</td></tr>
+<tr><td>litera</td><td>Blue</td><td>Light, paper-like</td></tr>
+<tr><td>lumen</td><td>Blue</td><td>Bright, minimal</td></tr>
+<tr><td>minty</td><td>Green</td><td>Fresh, friendly</td></tr>
+<tr><td>morph</td><td>Purple</td><td>Soft, neumorphic</td></tr>
+<tr><td>pulse</td><td>Purple</td><td>Vibrant, energetic</td></tr>
+<tr><td>sandstone</td><td>Green</td><td>Warm, earthy</td></tr>
+<tr><td>simplex</td><td>Red</td><td>Simple, no-frills</td></tr>
+<tr><td>united</td><td>Orange</td><td>Bold, Ubuntu-inspired</td></tr>
+<tr><td>yeti</td><td>Blue</td><td>Cool, spacious</td></tr>
+</table>
+
+<h2>Dark Themes (5)</h2>
+<table>
+<tr><th>Theme</th><th>Primary</th><th>Style</th></tr>
+<tr><td>cyborg</td><td>Blue</td><td>High-contrast, techy</td></tr>
+<tr><td>darkly</td><td>Blue</td><td>Dark Bootstrap</td></tr>
+<tr><td>solar</td><td>Blue</td><td>Solarized dark</td></tr>
+<tr><td>superhero</td><td>Orange</td><td>Bold, dark</td></tr>
+<tr><td>vapor</td><td>Purple</td><td>Neon, futuristic</td></tr>
+</table>
+
+<pre><code>ttkbootstrap::setTheme solar           ;# Switch at runtime
+puts [ttkbootstrap::themeNames]        ;# List all
+puts [ttkbootstrap::getColor type]     ;# "light" or "dark"</code></pre>
+
+<h1 id="original">ORIGINAL WIDGETS (27)</h1>
+
+<div class="widget">
+<div class="widget-name">AutocompleteEntry</div>
+<div class="widget-desc">Entry with live-filtered suggestion dropdown.</div>
+<pre><code>ttkbootstrap::AutocompleteEntry .ac     -values {Apple Banana Cherry} -bootstyle primary</code></pre>
+<div class="options">Options: <span>-values</span> list, <span>-bootstyle</span>, <span>-maxitems</span></div>
+</div>
+
+<div class="widget">
+<div class="widget-name">Badge</div>
+<div class="widget-desc">Small label for counts or status indicators.</div>
+<pre><code>ttkbootstrap::Badge .b -text "NEW" -bootstyle danger</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">Breadcrumb</div>
+<div class="widget-desc">Navigation path with clickable items.</div>
+<pre><code>ttkbootstrap::Breadcrumb .bc     -items {Home Settings Users} -bootstyle primary
+# Dynamic: Breadcrumb::load .bc {Home Products}</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">Card</div>
+<div class="widget-desc">Content card with title bar, body, and footer.</div>
+<pre><code>set c [ttkbootstrap::Card .c -title "Summary" -bootstyle primary]
+set body [ttkbootstrap::Card::body $c]
+set foot [ttkbootstrap::Card::footer $c]</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">CollapsingFrame</div>
+<div class="widget-desc">Accordion-style collapsible sections.</div>
+</div>
+
+<div class="widget">
+<div class="widget-name">DateEntry</div>
+<div class="widget-desc">Entry with calendar popup for date selection.</div>
+<pre><code>ttkbootstrap::DateEntry .de     -bootstyle primary -dateformat "%Y-%m-%d" -textvariable ::date</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">DateRangePicker</div>
+<div class="widget-desc">Two linked calendars for selecting a date range.</div>
+</div>
+
+<div class="widget">
+<div class="widget-name">EditableTableview</div>
+<div class="widget-desc">Tableview with double-click in-place cell editing.</div>
+<pre><code>ttkbootstrap::EditableTableview .tv     -coldata {{text "Name" stretch 1}}     -rowdata {{Alice} {Bob}} -editcolumns {0}</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">Floodgauge</div>
+<div class="widget-desc">Progress bar with text overlay showing percentage.</div>
+<pre><code>ttkbootstrap::Floodgauge .fg     -bootstyle primary -variable ::progress     -text "Loading..." -mask "%0.0f%%"</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">Meter</div>
+<div class="widget-desc">Circular gauge displaying a value within a range.</div>
+<pre><code>ttkbootstrap::Meter .m     -bootstyle primary -amountused 75     -amounttotal 100 -subtext "CPU"</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">NotificationBanner · ProgressDialog · RatingBar</div>
+<div class="widget-desc">Notification banners, progress dialogs, and star ratings.</div>
+</div>
+
+<div class="widget">
+<div class="widget-name">ScrolledFrame · Sidebar · SparkLine</div>
+<div class="widget-desc">Scrollable frames, navigation sidebars, and mini charts.</div>
+</div>
+
+<div class="widget">
+<div class="widget-name">SplashScreen · StatusBar · StepProgress</div>
+<div class="widget-desc">Splash screens, status bars, and wizard step indicators.</div>
+</div>
+
+<div class="widget">
+<div class="widget-name">Tableview</div>
+<div class="widget-desc">Feature-rich data table with sorting, filtering, pagination.</div>
+<pre><code>ttkbootstrap::Tableview .tv     -coldata {{text "Name" stretch 1} {text "Status" width 100}}     -rowdata {{Alice Active} {Bob Inactive}}     -bootstyle primary -searchable 1</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">TagEntry · Timeline · TimePicker</div>
+<div class="widget-desc">Pill tag entry, vertical timelines, and time pickers.</div>
+</div>
+
+<div class="widget">
+<div class="widget-name">Toast · ToggleSwitch · Tooltip · Window</div>
+<div class="widget-desc">Notifications, toggles, tooltips, and themed windows.</div>
+</div>
+
+<h1 id="svg">SVG WIDGETS (22)</h1>
+<p>SVG-rendered widgets using Tk 9 native SVG. Crisp at any DPI, auto-scaling, theme-aware.</p>
+
+<div class="widget">
+<div class="widget-name">SVGButton / PillButton</div>
+<div class="widget-desc">Rounded-rectangle or pill-shaped buttons.</div>
+<pre><code>ttkbootstrap::SVGButton .btn     -text "Rounded" -bootstyle primary -radius 6
+ttkbootstrap::PillButton .pill     -text "Pill" -bootstyle success -outline 1</code></pre>
+<div class="options">Options: <span>-text</span>, <span>-bootstyle</span>, <span>-radius</span> (0=square, omit=rounded), <span>-outline</span>, <span>-command</span></div>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGCheck / SVGRadio</div>
+<div class="widget-desc">Checkboxes with rounded-rect checkmarks and radio buttons with SVG circles.</div>
+<pre><code>ttkbootstrap::SVGCheck .ck -text "Accept" -variable ::ok -bootstyle primary
+ttkbootstrap::SVGRadio .r1 -text "A" -variable ::v -value a -bootstyle primary</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGEntry</div>
+<div class="widget-desc">Entry with SVG pill-shaped border and focus highlight.</div>
+<pre><code>ttkbootstrap::SVGEntry .ent     -bootstyle primary -textvariable ::name -width 20</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGProgress / SVGFloodgauge</div>
+<div class="widget-desc">Rounded progress bars with optional text overlay.</div>
+<pre><code>ttkbootstrap::SVGProgress .pb -bootstyle success -value 65
+ttkbootstrap::SVGFloodgauge .fg -bootstyle primary -value 78 -text "78%"</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGScale</div>
+<div class="widget-desc">Slider with SVG circle thumb and rounded track.</div>
+<pre><code>ttkbootstrap::SVGScale .sc -from 0 -to 100 -variable ::vol -bootstyle primary</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGMeter</div>
+<div class="widget-desc">Circular gauge with SVG arc ring.</div>
+<pre><code>ttkbootstrap::SVGMeter .m -bootstyle primary     -amountused 75 -amounttotal 100 -subtext "CPU"</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGBadge / SVGRatingBar / SVGSparkLine</div>
+<div class="widget-desc">Pill badges, star ratings, and mini charts with live data.</div>
+<pre><code>ttkbootstrap::SVGBadge .b -text "99+" -bootstyle danger
+ttkbootstrap::SVGRatingBar .rb -variable ::stars -bootstyle warning
+ttkbootstrap::SVGSparkLine .sl -data {10 25 15} -type line
+ttkbootstrap::SVGSparkLine_push .sl 42  ;# live data</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGStepProgress</div>
+<div class="widget-desc">Step indicator with SVG circles and coloured labels.</div>
+<pre><code>set sp [ttkbootstrap::SVGStepProgress .sp     -steps {Account Profile Payment Done} -bootstyle primary]
+ttkbootstrap::SVGStepProgress::next $sp</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGCard / SVGShadowCard</div>
+<div class="widget-desc">Cards with SVG rounded corners, optional drop shadow.</div>
+<pre><code>set c [ttkbootstrap::SVGShadowCard .c     -title "Dashboard" -bootstyle primary     -shadow 10 -width 260 -height 180]
+set body [ttkbootstrap::SVGShadowCard::body $c]</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGTimeline / SVGBreadcrumb</div>
+<div class="widget-desc">Vertical timelines with circle/square dots, breadcrumbs with SVG chevrons.</div>
+<pre><code>ttkbootstrap::SVGTimeline::add $tl     -title "Deployed" -timestamp "14:32"     -bootstyle success -icon "✓" -shape circle</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGDateEntry / SVGTimePicker</div>
+<div class="widget-desc">Date and time pickers with SVG icons and popups.</div>
+<pre><code>ttkbootstrap::SVGDateEntry .de -bootstyle primary -dateformat "%Y-%m-%d"
+ttkbootstrap::SVGTimePicker .tp -bootstyle primary -timeformat "%H:%M"</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGTooltip / SVGScrollbar / SVGSidebar</div>
+<div class="widget-desc">SVG tooltips, scrollbars, and navigation sidebars.</div>
+</div>
+
+
+<div class="widget">
+<div class="widget-name">SVGToggleSwitch</div>
+<div class="widget-desc">Animated toggle switch with SVG track and smooth sliding thumb.</div>
+<pre><code>ttkbootstrap::SVGToggleSwitch .ts \
+    -text "Dark mode" -variable ::dark -bootstyle success -shape round
+# Square shape: -shape square</code></pre>
+<div class="options">Options: <span>-text</span>, <span>-variable</span>, <span>-bootstyle</span>, <span>-command</span>, <span>-shape</span> (round|square)</div>
+</div>
+<div class="note" style="margin:8px 0;padding:8px 12px;border-left:3px solid #888;background:rgba(128,128,128,0.08);font-size:0.92em;">
+<strong>Note:</strong> <code>SVGToggleSwitch</code> is a frame-based composite widget, not a <code>ttk</code> button, so it does <strong>not</strong> respond to <code>$w invoke</code>. Set its <code>-variable</code> to change state programmatically (the switch redraws and <code>-command</code> fires); read that variable to get its state. Users toggle it by clicking.
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGProgressRing</div>
+<div class="widget-desc">Circular progress indicator — determinate (0-100%) or indeterminate spinner.</div>
+<pre><code>ttkbootstrap::SVGProgressRing .pr -bootstyle primary -value 75 -size 44
+ttkbootstrap::SVGProgressRing_set .pr 90      ;# update value
+ttkbootstrap::SVGProgressRing_spin .pr        ;# start spinning
+ttkbootstrap::SVGProgressRing_stop .pr        ;# stop spinning</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGCombobox</div>
+<div class="widget-desc">Combobox with SVG pill-shaped border and bootstyle focus highlight.</div>
+<pre><code>ttkbootstrap::SVGCombobox .cb \
+    -values {Red Green Blue} -bootstyle primary -width 18</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGSpinbox</div>
+<div class="widget-desc">Spinbox with SVG pill-shaped border and focus highlight.</div>
+<pre><code>ttkbootstrap::SVGSpinbox .sp -from 0 -to 100 -bootstyle primary -width 8</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGFormField</div>
+<div class="widget-desc">Label + SVG entry + live validation message with red/green feedback.</div>
+<pre><code>ttkbootstrap::SVGFormField .ff \
+    -label "Email" -bootstyle primary \
+    -validate {regexp {.+@.+\..+} $value} \
+    -validmsg "✓ Valid" -invalidmsg "✗ Invalid"
+# Check: SVGFormField::isValid .ff → 1/0/-1
+# Read: SVGFormField::getValue .ff → string</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGColourPicker</div>
+<div class="widget-desc">32-swatch Material Design colour palette with SVG rounded swatches.</div>
+<pre><code>ttkbootstrap::SVGColourPicker .cp -variable ::mycolour -columns 8</code></pre>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGNotificationBanner</div>
+<div class="widget-desc">Slide-in notification with SVG rounded corners, shadow, and coloured accent bar.</div>
+<pre><code>ttkbootstrap::SVGNotificationBanner::show \
+    -title "Success" -message "File saved." \
+    -bootstyle success -duration 3000 -position topright</code></pre>
+</div>
+
+<h2>SVG Icon Library</h2>
+<div class="widget">
+<div class="widget-name">SVGIcon — 32 Built-in Icons</div>
+<div class="widget-desc">Scalable SVG icons: bell, calendar, check, chevron_d/l/r/u, clock, close, database, download, edit, error, file, folder, heart, home, info, lock, logout, mail, minus, plus, refresh, save, search, settings, star, trash, upload, user, warning.</div>
+<pre><code>set img [ttkbootstrap::SVGIcon home -size 24 -colour "#333"]
+label .l -image $img
+puts [ttkbootstrap::SVGIconNames]    ;# list all icons</code></pre>
+</div>
+
+<h2>OS Theme Auto-Detect</h2>
+<div class="widget">
+<div class="widget-name">autoTheme</div>
+<div class="widget-desc">Detects OS dark/light preference (GNOME, KDE, XFCE, macOS, Windows) and applies a matching theme.</div>
+<pre><code>ttkbootstrap::autoTheme -light cosmo -dark solar</code></pre>
+</div>
+
+
+<div class="widget">
+<div class="widget-name">SVGSearchBar</div>
+<div class="widget-desc">Pill-shaped search entry with magnifying glass icon and clear button.</div>
+<pre><code>ttkbootstrap::SVGSearchBar .sb -bootstyle primary \
+    -placeholder "Search..." -width 30 \
+    -command {puts "Search: $query"}</code></pre>
+<div class="options">Options: <span>-bootstyle</span>, <span>-placeholder</span>, <span>-width</span>, <span>-command</span>, <span>-textvariable</span></div>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGAvatar</div>
+<div class="widget-desc">Circular avatar displaying coloured initials.</div>
+<pre><code>ttkbootstrap::SVGAvatar .av -text "JD" -bootstyle primary -size 48</code></pre>
+<div class="options">Options: <span>-text</span> (initials), <span>-bootstyle</span>, <span>-size</span></div>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGChip</div>
+<div class="widget-desc">Material Design chip with optional close button.</div>
+<pre><code>ttkbootstrap::SVGChip .ch -text "Python" -bootstyle primary \
+    -closeable 1 -command {puts "Removed"}</code></pre>
+<div class="options">Options: <span>-text</span>, <span>-bootstyle</span>, <span>-closeable</span>, <span>-command</span></div>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGDialog</div>
+<div class="widget-desc">Modal dialog with coloured title bar and action buttons. Returns clicked button text.</div>
+<pre><code>set result [ttkbootstrap::SVGDialog::show \
+    -title "Confirm" -message "Are you sure?" \
+    -bootstyle primary -buttons {Cancel OK} -default OK]</code></pre>
+<div class="options">Options: <span>-title</span>, <span>-message</span>, <span>-bootstyle</span>, <span>-buttons</span> list, <span>-default</span></div>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGTabNotebook</div>
+<div class="widget-desc">Tabbed notebook with SVG rounded active tab headers.</div>
+<pre><code>set nb [ttkbootstrap::SVGTabNotebook .nb -bootstyle primary]
+ttkbootstrap::SVGTabNotebook::add $nb "Tab 1" \
+    -create {ttk::label %f.l -text "Page 1"; pack %f.l}
+ttkbootstrap::SVGTabNotebook::select $nb 0</code></pre>
+<div class="options">Subcommands: <span>add</span> $w $title -create $script, <span>select</span> $w $index</div>
+</div>
+
+
+<div class="widget">
+<div class="widget-name">SVGGradientButton</div>
+<div class="widget-desc">Button with a faked vertical gradient (layered stripes) and hover effect.</div>
+<pre><code>ttkbootstrap::SVGGradientButton .gb -text "Click Me" \
+    -bootstyle primary -command {puts "clicked"}</code></pre>
+<div class="options">Options: <span>-text</span>, <span>-bootstyle</span>, <span>-command</span>, <span>-radius</span>, <span>-width</span></div>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGSkeleton</div>
+<div class="widget-desc">Animated shimmer placeholder for loading states (lines or card layout).</div>
+<pre><code>set sk [ttkbootstrap::SVGSkeleton .sk -width 300 -lines 3]
+ttkbootstrap::SVGSkeleton::start .sk
+ttkbootstrap::SVGSkeleton::stop .sk</code></pre>
+<div class="options">Options: <span>-width</span>, <span>-height</span>, <span>-lines</span>, <span>-shape</span> (lines|card)</div>
+</div>
+
+<div class="widget">
+<div class="widget-name">SVGTreeview</div>
+<div class="widget-desc">Tree with SVG chevrons, hover highlight, and selection.</div>
+<pre><code>set tv [ttkbootstrap::SVGTreeview .tv -bootstyle primary]
+set root [ttkbootstrap::SVGTreeview::insert $tv "" "Documents" -open 1]
+ttkbootstrap::SVGTreeview::insert $tv $root "report.pdf"</code></pre>
+<div class="options">Subcommands: <span>insert</span> $w $parent $text -open 0|1, <span>selection</span> $w</div>
+</div>
+
+<h1 id="gotchas">Gotchas &amp; Common Pitfalls</h1>
+<div class="widget">
+<div class="widget-name">Input widgets wrap a child entry</div>
+<div class="widget-desc">SVGEntry, SVGCombobox, SVGSpinbox, SVGSearchBar and SVGFormField place the editable control in a child path. Call get/insert/delete on the child, not the outer path.</div>
+<pre><code># 1.5.0+: use the accessors (recommended)
+ttkbootstrap::SVGEntry::set .e "hello"
+ttkbootstrap::SVGEntry::get .e
+ttkbootstrap::SVGEntry::clear .e
+# (same get/set/clear for SVGCombobox, SVGSpinbox, SVGSearchBar, SVGFormField)
+
+# or reach into the child path directly:
+SVGEntry .e      -&gt; .e.ent
+SVGCombobox .cb  -&gt; .cb.cb
+SVGSpinbox .sp   -&gt; .sp.sp
+SVGSearchBar .sb -&gt; .sb.ent
+SVGFormField .ff -&gt; .ff.ent.ent
+# or pass -textvariable and use that variable</code></pre>
+</div>
+<div class="widget">
+<div class="widget-name">Composite widgets are not ttk widgets</div>
+<div class="widget-desc">SVG* widgets are built from frame/label/canvas. They do not support <code>$w invoke</code>, <code>$w state</code>, or ttk-style <code>cget</code>. Use options, <code>-variable</code>, and <code>Widget::method</code> subcommands.</div>
+</div>
+<div class="widget">
+<div class="widget-name">Errors are raised, not returned</div>
+<div class="widget-desc">Bad theme names, color keys, and -bootstyle values raise descriptive errors. Wrap calls in <code>catch</code> when passing user-supplied values.</div>
+</div>
+<div class="widget">
+<div class="widget-name">Widget paths must be unique</div>
+<div class="widget-desc">Re-creating a widget at an existing path raises the standard Tk "window name already exists" error. Destroy the old one first.</div>
+</div>
+<div class="widget">
+<div class="widget-name">Numeric options are not range-checked</div>
+<div class="widget-desc">Reversed scale ranges, a zero meter total, or fractional ratings are accepted without error but may render oddly. Validate user input yourself.</div>
+</div>
+<div class="widget">
+<div class="widget-name">Test suite needs a UTF-8 locale</div>
+<div class="widget-desc">Run with <code>LANG=en_US.UTF-8</code> or the box-drawing characters in the test output raise an encoding error.</div>
+</div>
+<h1 id="scaling">DPI SCALING</h1>
+<pre><code>ttkbootstrap::_sp 10          ;# 10px at 96dpi → 20px at 192dpi
+ttkbootstrap::_sf 12          ;# Scale font size
+ttkbootstrap::_sp2 8 4        ;# Scale padding pair
+ttkbootstrap::scaleFactor     ;# Current scale (1.0, 2.0, etc.)
+ttkbootstrap::_fontPad 10     ;# Font-metric padding {hPad vPad}</code></pre>
+
+<h1 id="colours">COLOUR UTILITIES</h1>
+<pre><code>ttkbootstrap::_contrastFg $hex     ;# Black or white for contrast
+ttkbootstrap::_darken $hex 15      ;# Darken by 15%
+ttkbootstrap::_lighten $hex 15     ;# Lighten by 15%
+ttkbootstrap::_safeFont $name      ;# Validate font, fallback to TkDefaultFont</code></pre>
+
+<h1 id="examples">EXAMPLES</h1>
+
+<h2>Minimal App</h2>
+<pre><code>source ttkbootstrap.tcl
+ttkbootstrap::Window -themename litera -title "Hello" -size {400 300}
+ttk::button .btn -text "Click" -style "primary.TButton"     -command {puts "Hello!"}
+pack .btn -pady 20</code></pre>
+
+<h2>Dashboard with Shadow Cards</h2>
+<pre><code>source ttkbootstrap.tcl
+ttkbootstrap::Window -themename darkly -title "Dashboard" -size {800 500}
+
+set main [ttk::frame .main]
+pack $main -fill both -expand 1 -padx 16 -pady 16
+
+foreach {title value bs} {
+    "Active Tasks" "12" primary
+    "Completed" "48" success
+    "Overdue" "3" danger
+} {
+    set c [ttkbootstrap::SVGShadowCard $main.c[incr i]         -title $title -bootstyle $bs -shadow 10 -width 200 -height 120]
+    set body [ttkbootstrap::SVGShadowCard::body $c]
+    ttk::label $body.v -text $value -font {TkDefaultFont 24 bold}
+    pack $body.v -pady 8
+    pack $c -side left -padx 8 -fill both -expand 1
+}</code></pre>
+
+<h2>Data Entry Form</h2>
+<pre><code>source ttkbootstrap.tcl
+ttkbootstrap::Window -themename minty -title "Registration" -size {500 400}
+
+foreach {lbl var} {Name ::name Email ::email Phone ::phone} {
+    set f [ttk::frame .f[incr i]]
+    ttk::label $f.l -text "$lbl:" -width 8
+    ttkbootstrap::SVGEntry $f.e -bootstyle primary         -textvariable $var -width 30
+    pack $f.l -side left
+    pack $f.e -side left -padx 8
+    pack $f -pady 4 -padx 16 -anchor w
+}
+
+ttkbootstrap::PillButton .submit     -text "Register" -bootstyle success     -command {puts "Name: $::name, Email: $::email"}
+pack .submit -pady 16</code></pre>
+
+<footer>
+ttkbootstrap-tcl 1.5.0 — May 2026 — Tcl/Tk Widget Library Manual
+</footer>
+
+</body>
+</html>

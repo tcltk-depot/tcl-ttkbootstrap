@@ -1,0 +1,542 @@
+.\" ttkbootstrap-tcl man page
+.\" Generated for ttkbootstrap-tcl 1.5.0
+.TH TTKBOOTSTRAP\-TCL 3tcl "May 2026" "Version 1.5.0" "Tcl/Tk Widget Library"
+.SH NAME
+ttkbootstrap\-tcl \- Modern themed widget library for Tcl/Tk 9
+.SH SYNOPSIS
+.B source ttkbootstrap.tcl
+.br
+.B ttkbootstrap::Window
+\fI\-themename name \-title text \-size {w h}\fR
+.br
+.B ttkbootstrap::setTheme
+\fIname\fR
+.br
+.B ttkbootstrap::getColor
+\fIkey\fR
+.SH DESCRIPTION
+.B ttkbootstrap\-tcl
+is a native Tcl/Tk port of the Python ttkbootstrap theme extension.
+It provides 64 widgets (27 original + 37 SVG), 18 themes (13 light, 5 dark),
+and automatic HiDPI scaling for Tcl/Tk 9.
+.PP
+SVG widgets use Tk 9's native SVG rendering for crisp, resolution\-independent
+UI elements at any DPI.
+.SH THEMES
+.SS "Light Themes (13)"
+cerculean, cosmo, flatly, journal, litera, lumen, minty, morph, pulse,
+sandstone, simplex, united, yeti
+.SS "Dark Themes (5)"
+cyborg, darkly, solar, superhero, vapor
+.SS "Theme Commands"
+.TP
+.B ttkbootstrap::setTheme \fIname\fR
+Switch to the named theme at runtime.
+.TP
+.B ttkbootstrap::themeNames
+Return a list of all available theme names.
+.TP
+.B ttkbootstrap::lightThemes
+Return a list of light theme names.
+.TP
+.B ttkbootstrap::darkThemes
+Return a list of dark theme names.
+.TP
+.B ttkbootstrap::getColor \fIkey\fR
+Return the hex colour for \fIkey\fR (primary, secondary, success, info,
+warning, danger, light, dark, bg, fg, selectbg, selectfg, border, active,
+inputfg, inputbg, font, type).
+.SH "ORIGINAL WIDGETS"
+.SS "AutocompleteEntry"
+Entry with live\-filtered suggestion dropdown.
+.RS
+.nf
+ttkbootstrap::AutocompleteEntry .ac \\
+    \-values {Apple Banana Cherry} \\
+    \-bootstyle primary
+.fi
+.RE
+Options: \fB\-values\fR list, \fB\-bootstyle\fR, \fB\-maxitems\fR int
+.SS "Badge"
+Small label for counts or status.
+.RS
+.nf
+ttkbootstrap::Badge .b \-text "NEW" \-bootstyle danger
+.fi
+.RE
+.SS "Breadcrumb"
+Navigation path with clickable items.
+.RS
+.nf
+ttkbootstrap::Breadcrumb .bc \\
+    \-items {Home Settings Users} \\
+    \-bootstyle primary \-command {puts $idx}
+.fi
+.RE
+Subcommands: \fBBreadcrumb::load\fR \fI$w $items\fR, \fBBreadcrumb::get\fR \fI$w\fR
+.SS "Card"
+Content card with title, body, and footer.
+.RS
+.nf
+set c [ttkbootstrap::Card .c \-title "Summary" \-bootstyle primary]
+set body [ttkbootstrap::Card::body $c]
+.fi
+.RE
+.SS "CollapsingFrame"
+Accordion\-style collapsible sections.
+.SS "DateEntry"
+Entry with calendar popup for date selection.
+.RS
+.nf
+ttkbootstrap::DateEntry .de \\
+    \-bootstyle primary \-dateformat "%Y\-%m\-%d" \\
+    \-textvariable ::mydate
+.fi
+.RE
+.SS "DateRangePicker"
+Two linked calendars for selecting a date range.
+.SS "EditableTableview"
+Tableview with double\-click cell editing. Inherits all Tableview options
+plus \fB\-editcolumns\fR.
+.SS "Floodgauge"
+Progress bar with text overlay showing percentage.
+.RS
+.nf
+ttkbootstrap::Floodgauge .fg \\
+    \-bootstyle primary \-variable ::progress \\
+    \-text "Loading..." \-mask "%0.0f%%"
+.fi
+.RE
+.SS "Meter"
+Circular gauge displaying a value within a range.
+.RS
+.nf
+ttkbootstrap::Meter .m \\
+    \-bootstyle primary \-amountused 75 \\
+    \-amounttotal 100 \-subtext "CPU"
+.fi
+.RE
+.SS "NotificationBanner"
+Slide\-in notification banner.
+.SS "ProgressDialog"
+Modal dialog with progress bar.
+.SS "RatingBar"
+Clickable star rating widget.
+.SS "ScrolledFrame"
+Frame with automatic scrollbars.
+.SS "Sidebar"
+Navigation sidebar with selectable items.
+.RS
+.nf
+set sb [ttkbootstrap::Sidebar .sb \-bootstyle primary]
+ttkbootstrap::Sidebar::add $sb home "Home" \-icon home
+ttkbootstrap::Sidebar::select $sb home
+.fi
+.RE
+.SS "SparkLine"
+Mini inline chart (line or bar type).
+.SS "SplashScreen"
+Application splash screen with progress.
+.SS "StatusBar"
+Bottom status bar with message display.
+.SS "StepProgress"
+Horizontal step indicator (wizard\-style).
+.RS
+.nf
+set sp [ttkbootstrap::StepProgress .sp \\
+    \-steps {Account Profile Payment Done} \\
+    \-bootstyle primary]
+ttkbootstrap::StepProgress::next $sp
+.fi
+.RE
+.SS "Tableview"
+Feature\-rich table with sorting, filtering, pagination.
+.RS
+.nf
+ttkbootstrap::Tableview .tv \\
+    \-coldata {{text "Name" stretch 1}} \\
+    \-rowdata {{Alice} {Bob}} \\
+    \-bootstyle primary \-searchable 1
+.fi
+.RE
+.SS "TagEntry"
+Entry that converts text into removable pill tags.
+.SS "Timeline"
+Vertical timeline with dots, connectors, and content.
+.SS "TimePicker"
+Entry with clock popup for time selection.
+.SS "Toast"
+Temporary notification popup.
+.SS "ToggleSwitch"
+On/off toggle switch with round or square shape.
+.SS "Tooltip"
+Hover tooltip for any widget.
+.SS "Window"
+Configure root window with theme and title.
+.SH "SVG WIDGETS"
+SVG\-rendered widgets using Tk 9 native SVG support. Crisp at any DPI.
+.SS "SVGButton"
+Rounded\-rectangle button with customisable radius.
+.RS
+.nf
+ttkbootstrap::SVGButton .btn \\
+    \-text "Click" \-bootstyle primary \\
+    \-radius 6 \-command {puts "Clicked"}
+.fi
+.RE
+Options: \fB\-text\fR, \fB\-bootstyle\fR, \fB\-radius\fR (0=square, omit=rounded), \fB\-outline\fR (0|1),
+\fB\-command\fR, \fB\-width\fR, \fB\-height\fR
+.SS "PillButton"
+Fully rounded pill\-shaped button (SVGButton wrapper).
+.RS
+.nf
+ttkbootstrap::PillButton .pill \\
+    \-text "Submit" \-bootstyle success \-outline 1
+.fi
+.RE
+.SS "SVGCheck"
+Checkbox with SVG rounded\-rect and checkmark.
+.SS "SVGRadio"
+Radio button with SVG circles.
+.SS "SVGEntry"
+Entry with SVG pill-shaped border and focus highlight.
+.RS
+.nf
+ttkbootstrap::SVGEntry .ent \\
+    \-bootstyle primary \-textvariable ::name \-width 20
+.fi
+.RE
+.SS "SVGProgress"
+Rounded progress bar with clipped fill.
+.SS "SVGScale"
+Canvas slider with SVG circle thumb and rounded track.
+.SS "SVGMeter"
+Circular gauge with SVG arc ring.
+.SS "SVGFloodgauge"
+Progress bar with text overlay.
+.SS "SVGBadge"
+Pill\-shaped badge with SVG background.
+.RS
+.nf
+ttkbootstrap::SVGBadge .b \-text "99+" \-bootstyle danger
+.fi
+.RE
+.SS "SVGRatingBar"
+Clickable star rating with SVG stars.
+.SS "SVGSparkLine"
+Mini chart with streaming data support.
+.RS
+.nf
+ttkbootstrap::SVGSparkLine .sl \\
+    \-data {10 25 15 30} \-bootstyle primary \-type line
+ttkbootstrap::SVGSparkLine_push .sl 42
+.fi
+.RE
+.SS "SVGStepProgress"
+Step indicator with SVG circles and canvas text.
+.SS "SVGScrollbar"
+Canvas scrollbar with SVG pill\-shaped thumb.
+.SS "SVGTimeline"
+Vertical timeline with SVG dots (circle/square shapes).
+.RS
+.nf
+ttkbootstrap::SVGTimeline::add $tl \\
+    \-title "Deployed" \-timestamp "14:32" \\
+    \-bootstyle success \-icon "\\[u2713]" \-shape circle
+.fi
+.RE
+.SS "SVGBreadcrumb"
+Breadcrumb with SVG chevron separators.
+.SS "SVGCard"
+Card with SVG rounded border and coloured title bar.
+.SS "SVGShadowCard"
+Card with layered SVG drop shadow effect.
+.RS
+.nf
+set c [ttkbootstrap::SVGShadowCard .c \\
+    \-title "Dashboard" \-bootstyle primary \\
+    \-shadow 10 \-width 260 \-height 180]
+set body [ttkbootstrap::SVGShadowCard::body $c]
+.fi
+.RE
+.SS "SVGTooltip"
+Hover tooltip with SVG rounded background.
+.SS "SVGDateEntry"
+Entry with SVG calendar icon and calendar popup.
+.SS "SVGTimePicker"
+Entry with SVG clock icon and hour/minute popup.
+.SS "SVGSidebar"
+Navigation sidebar with active/hover highlighting.
+
+.SS "SVGToggleSwitch"
+Animated toggle switch with SVG track and sliding thumb.
+.RS
+.nf
+ttkbootstrap::SVGToggleSwitch .ts \
+    \-text "Dark mode" \-variable ::dark \-bootstyle success
+.fi
+.RE
+Options: \fB\-text\fR, \fB\-variable\fR, \fB\-bootstyle\fR, \fB\-command\fR, \fB\-shape\fR (round|square)
+.PP
+Note: SVGToggleSwitch is a frame-based composite widget, not a ttk button, so
+it does not respond to \fB$w invoke\fR. Change its state by setting its
+\fB\-variable\fR (the switch redraws and \fB\-command\fR fires); read its
+state by querying that variable.
+.SS "SVGProgressRing"
+Circular progress indicator with determinate and spinning modes.
+.RS
+.nf
+ttkbootstrap::SVGProgressRing .pr \-bootstyle primary \-value 75
+ttkbootstrap::SVGProgressRing_spin .pr   ;\# indeterminate
+ttkbootstrap::SVGProgressRing_stop .pr
+.fi
+.RE
+.SS "SVGCombobox"
+Combobox with SVG pill-shaped border and focus highlight.
+.RS
+.nf
+ttkbootstrap::SVGCombobox .cb \-values {Red Green Blue} \-bootstyle primary
+.fi
+.RE
+.SS "SVGSpinbox"
+Spinbox with SVG pill-shaped border and focus highlight.
+.RS
+.nf
+ttkbootstrap::SVGSpinbox .sp \-from 0 \-to 100 \-bootstyle primary
+.fi
+.RE
+.SS "SVGFormField"
+Form field with label, SVG entry, and live validation.
+.RS
+.nf
+ttkbootstrap::SVGFormField .ff \-label "Email" \-bootstyle primary \
+    \-validate {regexp {.+@.+} $value} \
+    \-validmsg "OK" \-invalidmsg "Invalid"
+.fi
+.RE
+.SS "SVGColourPicker"
+Colour palette with 32 clickable SVG swatches.
+.RS
+.nf
+ttkbootstrap::SVGColourPicker .cp \-variable ::mycolour
+.fi
+.RE
+.SS "SVGNotificationBanner"
+Slide\-in notification with SVG rounded corners and shadow.
+.RS
+.nf
+ttkbootstrap::SVGNotificationBanner::show \
+    \-title "Success" \-message "Saved." \-bootstyle success \-duration 3000
+.fi
+.RE
+
+.SS "SVGSearchBar"
+Pill\-shaped search entry with magnifying glass icon and clear button.
+.RS
+.nf
+ttkbootstrap::SVGSearchBar .sb \-bootstyle primary \
+    \-placeholder "Search..." \-width 30 \-command {puts $query}
+.fi
+.RE
+Options: \fB\-bootstyle\fR, \fB\-placeholder\fR, \fB\-width\fR, \fB\-command\fR, \fB\-textvariable\fR
+.SS "SVGAvatar"
+Circular avatar displaying coloured initials.
+.RS
+.nf
+ttkbootstrap::SVGAvatar .av \-text "JD" \-bootstyle primary \-size 48
+.fi
+.RE
+.SS "SVGChip"
+Material Design chip with optional close button.
+.RS
+.nf
+ttkbootstrap::SVGChip .ch \-text "Python" \-bootstyle primary \-closeable 1
+.fi
+.RE
+.SS "SVGDialog"
+Modal dialog with coloured title bar and action buttons.
+.RS
+.nf
+set result [ttkbootstrap::SVGDialog::show \
+    \-title "Confirm" \-message "Are you sure?" \
+    \-bootstyle primary \-buttons {Cancel OK} \-default OK]
+.fi
+.RE
+Returns the button text that was clicked.
+.SS "SVGTabNotebook"
+Tabbed notebook with SVG rounded tab headers.
+.RS
+.nf
+set nb [ttkbootstrap::SVGTabNotebook .nb \-bootstyle primary]
+ttkbootstrap::SVGTabNotebook::add $nb "Tab 1" \
+    \-create {ttk::label %f.l \-text "Page 1"; pack %f.l}
+ttkbootstrap::SVGTabNotebook::select $nb 0
+.fi
+.RE
+
+.SS "SVGGradientButton"
+Button with a faked vertical gradient and hover effect.
+.RS
+.nf
+ttkbootstrap::SVGGradientButton .gb \-text "Click" \-bootstyle primary \
+    \-command {puts clicked}
+.fi
+.RE
+.SS "SVGSkeleton"
+Animated shimmer placeholder for loading states.
+.RS
+.nf
+set sk [ttkbootstrap::SVGSkeleton .sk \-width 300 \-lines 3]
+ttkbootstrap::SVGSkeleton::start .sk
+ttkbootstrap::SVGSkeleton::stop .sk
+.fi
+.RE
+Options: \fB\-width\fR, \fB\-height\fR, \fB\-lines\fR, \fB\-shape\fR (lines|card)
+.SS "SVGTreeview"
+Tree with SVG chevrons, hover highlight, and selection.
+.RS
+.nf
+set tv [ttkbootstrap::SVGTreeview .tv \-bootstyle primary]
+set root [ttkbootstrap::SVGTreeview::insert $tv "" "Documents" \-open 1]
+ttkbootstrap::SVGTreeview::insert $tv $root "report.pdf"
+.fi
+.RE
+.SH "SVG ICON LIBRARY"
+32 built\-in SVG icons with DPI scaling and colour customisation.
+.TP
+.B ttkbootstrap::SVGIcon \fIname\fR ?\fI\-size pixels\fR? ?\fI\-colour hex\fR?
+Return a photo image of the named icon.
+Available: bell, calendar, check, chevron_d, chevron_l, chevron_r, chevron_u,
+clock, close, database, download, edit, error, file, folder, heart, home,
+info, lock, logout, mail, minus, plus, refresh, save, search, settings,
+star, trash, upload, user, warning.
+.TP
+.B ttkbootstrap::SVGIconNames
+Return list of all available icon names.
+.SH "OS THEME AUTO\-DETECT"
+.TP
+.B ttkbootstrap::autoTheme ?\fI\-light name\fR? ?\fI\-dark name\fR?
+Detect OS dark/light preference and apply matching theme.
+Supports GNOME, KDE, XFCE, macOS, and Windows.
+
+.SH "DPI SCALING"
+All widgets auto\-scale for HiDPI and large displays.
+.TP
+.B ttkbootstrap::_sp \fIpixels\fR
+Scale pixel value for current DPI. 10 at 96dpi becomes 20 at 192dpi.
+.TP
+.B ttkbootstrap::_sf \fIpoints\fR
+Scale font size for current DPI.
+.TP
+.B ttkbootstrap::_sp2 \fIx y\fR
+Scale padding pair {x y}.
+.TP
+.B ttkbootstrap::scaleFactor
+Return current scale factor (1.0, 2.0, etc.)
+.TP
+.B ttkbootstrap::_fontPad \fIhPx\fR
+Compute {hPad vPad} from font metrics for consistent text centering.
+.SH "COLOUR UTILITIES"
+.TP
+.B ttkbootstrap::_contrastFg \fI$hex\fR
+Return black or white for best contrast against the given colour.
+.TP
+.B ttkbootstrap::_darken \fI$hex percent\fR
+Darken a colour by the given percentage.
+.TP
+.B ttkbootstrap::_lighten \fI$hex percent\fR
+Lighten a colour by the given percentage.
+.SH EXAMPLES
+.SS "Minimal App"
+.RS
+.nf
+source ttkbootstrap.tcl
+ttkbootstrap::Window \-themename litera \\
+    \-title "Hello" \-size {400 300}
+ttk::button .btn \-text "Click" \\
+    \-style "primary.TButton" \\
+    \-command {puts "Hello!"}
+pack .btn \-pady 20
+.fi
+.RE
+.SS "Theme Switcher"
+.RS
+.nf
+foreach theme [ttkbootstrap::themeNames] {
+    ttk::button .b_$theme \-text $theme \\
+        \-command [list ttkbootstrap::setTheme $theme]
+    pack .b_$theme \-side left \-padx 2
+}
+.fi
+.RE
+.SS "Dashboard with Shadow Cards"
+.RS
+.nf
+foreach {title bs} {Tasks primary Revenue success Alerts danger} {
+    set c [ttkbootstrap::SVGShadowCard .c_$title \\
+        \-title $title \-bootstyle $bs \\
+        \-shadow 10 \-width 200 \-height 120]
+    pack $c \-side left \-padx 8
+}
+.fi
+.RE
+.SH FILES
+.TP
+.B ttkbootstrap.tcl
+Main package with core functions and SVG widgets.
+.TP
+.B widgets/*.tcl
+Original widget implementations.
+.TP
+.B gallery/showcase.tcl
+Interactive widget showcase demo.
+.TP
+.B docs/
+Documentation: tutorial, widget reference, themes, API.
+.SH REQUIREMENTS
+Tcl/Tk 9.0 or later (with SVG support via nanosvg).
+.SH AUTHORS
+ttkbootstrap\-tcl is a Tcl/Tk port of the Python ttkbootstrap library.
+.SH "GOTCHAS"
+.TP
+.B Input widgets wrap a child entry
+\fBSVGEntry\fR, \fBSVGCombobox\fR, \fBSVGSpinbox\fR, \fBSVGSearchBar\fR and
+\fBSVGFormField\fR put the editable control in a child path. Call
+\fBget\fR/\fBinsert\fR/\fBdelete\fR on the child, not the outer path:
+.nf
+    SVGEntry .e      -> .e.ent
+    SVGCombobox .cb  -> .cb.cb
+    SVGSpinbox .sp   -> .sp.sp
+    SVGSearchBar .sb -> .sb.ent
+    SVGFormField .ff -> .ff.ent.ent
+.fi
+Or, as of 1.5.0, use the accessors \fBSVGEntry::get\fR / \fB::set\fR /
+\fB::clear\fR (and the same for SVGCombobox/SVGSpinbox/SVGSearchBar/
+SVGFormField), or pass \fB\-textvariable\fR and use that variable.
+.TP
+.B Composite widgets are not ttk widgets
+\fBSVG*\fR widgets are built from frame/label/canvas and do not support
+\fB$w invoke\fR, \fB$w state\fR, or ttk-style \fBcget\fR. Use options,
+\fB\-variable\fR, and \fBWidget::method\fR subcommands.
+.TP
+.B Errors are raised, not returned
+Bad theme names, color keys, and \fB\-bootstyle\fR values raise descriptive
+errors. Wrap calls in \fBcatch\fR when passing user-supplied values.
+.TP
+.B Widget paths must be unique
+Re-creating a widget at an existing path raises the standard Tk
+"window name already exists" error. Destroy the old one first.
+.TP
+.B Numeric options are not range-checked
+Reversed scale ranges, a zero meter total, or fractional ratings are accepted
+without error but may render oddly. Validate user input yourself.
+.TP
+.B Test suite needs a UTF-8 locale
+Run with \fBLANG=en_US.UTF-8\fR or the box-drawing characters in the output
+raise an encoding error.
+.SH SEE ALSO
+.BR tclsh (1),
+.BR wish (1),
+.BR ttk::intro (3tk)
+.PP
+Documentation: docs/gettingstarted/tutorial.md, docs/widgets.md
